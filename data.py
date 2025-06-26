@@ -1,0 +1,1 @@
+books = [    {"id": 1, "name": "1984", "price": 100},    {"id": 2, "name": "Bible", "price": 200},]next_id = 3
