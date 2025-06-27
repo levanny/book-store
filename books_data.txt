@@ -1,0 +1,5 @@
+1984,George Orwell,15.99
+Brave New World,Aldous Huxley,12.50
+The Hobbit,J.R.R. Tolkien,22.00
+The Catcher in the Rye,J.D. Salinger,18.75
+To Kill a Mockingbird,Harper Lee,16.20
