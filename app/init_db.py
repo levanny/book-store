@@ -1,5 +1,5 @@
 from db import get_connection
-from models import Book
+from app.models import Book
 
 def insert_data(filepath: str):
     with open(filepath, 'r', encoding='utf-8') as f:
