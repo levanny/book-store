@@ -1,0 +1,25 @@
+1984,George Orwell,15.99
+Brave New World,Aldous Huxley,12.50
+The Hobbit,J.R.R. Tolkien,22.00
+The Catcher in the Rye,J.D. Salinger,18.75
+To Kill a Mockingbird,Harper Lee,16.20
+Fahrenheit 451,Ray Bradbury,14.80
+The Great Gatsby,F. Scott Fitzgerald,13.45
+Moby-Dick,Herman Melville,17.60
+Crime and Punishment,Fyodor Dostoevsky,19.99
+Pride and Prejudice,Jane Austen,11.95
+The Brothers Karamazov,Fyodor Dostoevsky,21.50
+The Alchemist,Paulo Coelho,12.75
+The Picture of Dorian Gray,Oscar Wilde,10.40
+War and Peace,Leo Tolstoy,25.99
+Slaughterhouse-Five,Kurt Vonnegut,14.25
+The Road,Cormac McCarthy,13.30
+Jane Eyre,Charlotte Brontë,15.20
+Wuthering Heights,Emily Brontë,13.99
+The Stranger,Albert Camus,12.10
+Don Quixote,Miguel de Cervantes,20.00
+The Old Man and the Sea,Ernest Hemingway,10.99
+A Tale of Two Cities,Charles Dickens,12.90
+Les Misérables,Victor Hugo,22.40
+One Hundred Years of Solitude,Gabriel García Márquez,18.60
+The Divine Comedy,Dante Alighieri,24.50
