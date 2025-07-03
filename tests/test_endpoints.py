@@ -1,6 +1,8 @@
 import pytest
 from fastapi.testclient import TestClient
 from app.main import app
+from app.routes import router as books_router
+
 
 client = TestClient(app)
 
@@ -23,4 +25,37 @@ def test_add_book():
     return json_data["book"]["id"]
 
     # this function tests if the filtering endpoint filters well
-    # def test_filter_books():
+def test_filter_books():
+    response = client.get ("/books/filter", params = {"title": "1984"})
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+
+def test_update_book():
+    payload = {
+    "title":  "tst11",
+    "author": "levan update",
+    "price": 69.96
+    }
+    create = client.post("/books", json=payload)
+    book_id = create.json()["book"]["id"]
+
+    updated = {
+    "title":  "updated",
+    "author": "michael update",
+    "price": 34.68
+    }
+    print("CREATE:", create.status_code, create.json())
+    response = client.patch(f"/books/{book_id}", json=updated)
+    assert response.status_code == 200
+    assert response.json()["book"]["title"] == "updated"
+
+def test_delete_book():
+    book = {
+        "title": "Delete Me",
+        "author": "Someone",
+        "price": 5.0}
+    create = client.post("/books", json = book)
+    book_id = create.json()["book"]["id"]
+    response = client.delete(f"/books/{book_id}")
+    assert response.status_code == 200
+    assert response.json()["book"]["id"] == book_id

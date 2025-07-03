@@ -1,5 +1,5 @@
-from db import get_connection
-from models import Book
+from app.db import get_connection
+from app.models import Book
 
 def insert_data(filepath: str):
     with get_connection() as con:
