@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
-from models import Book
-from db import get_connection
+from app.models import Book
+from app.db import get_connection
 from typing import Optional
 
 router = APIRouter()
@@ -59,7 +59,7 @@ def add_book(book: Book):
             )
             new_id = cur.fetchone()[0]
             con.commit()
-            return {"message": "Book added", "book": {"id": new_id, **book.dict()}}
+            return {"message": "Book added", "book": {"id": new_id, **book.dict(exclude={"id"})}}
 
 # This endpoint is responsible for deleting a book by accessing it by its { id }
 @router.delete("/books/{book_id}")
