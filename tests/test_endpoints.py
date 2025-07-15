@@ -1,6 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from app.main import app
+from app.db import get_connection
 from app.routes import router as books_router
 
 
