@@ -26,9 +26,20 @@ def test_add_book():
 
     # this function tests if the filtering endpoint filters well
 def test_filter_books():
+    book_data = {
+        "title": "1984",
+        "author": "George Orwell",
+        "price": 15.99
+    }
+    create = client.post("/books", json=book_data)
+    assert create.status_code == 201
     response = client.get ("/books/filter", params = {"title": "1984"})
     assert response.status_code == 200
+    books = response.json()
     assert isinstance(response.json(), list)
+    assert len(books) > 0
+    found = any(book["title"].lower() == "1984" for book in books)
+    assert found, "Expected book with the title '1984' not found in the DB"
 
 def test_update_book():
     payload = {
