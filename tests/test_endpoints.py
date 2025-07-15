@@ -65,9 +65,18 @@ def test_delete_book():
     book = {
         "title": "Delete Me",
         "author": "Someone",
-        "price": 5.0}
+        "price": 5.0
+    }
     create = client.post("/books", json = book)
+    assert create.status_code == 201
     book_id = create.json()["book"]["id"]
+
     response = client.delete(f"/books/{book_id}")
     assert response.status_code == 200
     assert response.json()["book"]["id"] == book_id
+
+    with get_connection() as con:
+        with con.cursor() as cur:
+            cur.execute("SELECT * FROM books WHERE id = %s", (book_id,))
+            row = cur.fetchone()
+            assert row is None, "Book still exists in DB after deletion"
