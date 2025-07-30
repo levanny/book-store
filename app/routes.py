@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
-from app.models import Book
-from app.db import get_connection
+from models import Book
+from db import get_connection
 from typing import Optional
 
 router = APIRouter()
@@ -38,7 +38,7 @@ def get_book_by_filter(
         params.append(max_price)
 
     with get_connection() as con:
-        with con.cursor() as cur:           # DO NOT FORGET TO INCLUDE MAX_PRICE AND MIN_PRICE ! ! ! ! ! !
+        with con.cursor() as cur:
             cur.execute(query, tuple(params))
             rows = cur.fetchall()
             if not rows:
