@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
-from models import Book
-from db import get_connection
+from app.models import Book
+from app.db import get_connection
 from typing import Optional
 
 router = APIRouter()
@@ -48,18 +48,18 @@ def get_book_by_filter(
                 for row in rows
             ]
 
-#This endpoint is responsible for adding a book to the table, by inputing { title, author, price }, { id } is PRIMARY, so it is being generated on itself
+#This endpoint is responsible for adding a book to the table, by inputting { title, author, price }, { id } is PRIMARY, so it is being generated on itself
 @router.post("/books", status_code=status.HTTP_201_CREATED)
 def add_book(book: Book):
     with get_connection() as con:
         with con.cursor() as cur:
             cur.execute(
-                "INSERT INTO books (title, author, price) VALUES (%s, %s, %s) RETURNING id",
+                "INSERT INTO books (title, author, price) VALUES (%s, %s, %s) RETURNING *",
                 (book.title, book.author, book.price),
             )
-            new_id = cur.fetchone()[0]
+            row = cur.fetchone()
             con.commit()
-            return {"message": "Book added", "book": {"id": new_id, **book.dict()}}
+            return {"message": "Book added", "book": {"id": row[0], "title": row[1], "author": row[2], "price": row[3]}}
 
 # This endpoint is responsible for deleting a book by accessing it by its { id }
 @router.delete("/books/{book_id}")
