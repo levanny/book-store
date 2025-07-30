@@ -1,7 +1,8 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class Book(BaseModel):
-    id: int | None = None
+    id: Optional[int] = None
     title: str
     author: str
     price: float
