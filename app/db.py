@@ -3,7 +3,6 @@ from psycopg.errors import DuplicateTable
 
 DB_NAME = "book_store"
 
-
 DB_CONFIG = {
     "dbname": DB_NAME,
     "user": "postgres",

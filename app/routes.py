@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
-from app.models import Book
-from app.db import get_connection
+from models import Book
+from db import get_connection
 from typing import Optional
 
 router = APIRouter()
