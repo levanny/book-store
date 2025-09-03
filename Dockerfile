@@ -1,18 +1,17 @@
-FROM python:3.11-slim
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
 WORKDIR /app
 
-# Install system dependencies required by psycopg[binary]
-RUN apt-get update && apt-get install -y gcc libpq-dev && rm -rf /var/lib/apt/lists/*
+COPY pyproject.toml uv.lock ./
 
-# Install Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN --mount=type=cache,target=/root/.cache/uv uv sync --locked --no-install-project
 
-# Copy project files
-COPY ./app /app/app
+COPY ./app ./app
+
+RUN --mount=type=cache,target=/root/.cache/uv uv sync --locked
+
+ENV PATH="/app/.venv/bin:$PATH"
 
 EXPOSE 8000
 
-# Start FastAPI app
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
