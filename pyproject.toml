@@ -1,0 +1,16 @@
+[project]
+name = "book-store"
+version = "0.1.0"
+description = "Book store project using FastAPI and uv"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "sqlalchemy",
+    "psycopg[binary]",
+    "python-dotenv",
+]
+
+[tool.uv]
+python = "3.12"
