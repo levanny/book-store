@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from app.routes import router as books_router
 import uvicorn
-from db import ensure_db_exists
-from init_db import insert_data
+from app.db import ensure_db_exists
+from app.init_db import insert_data
 import os
 from alembic import command
 from alembic.config import Config

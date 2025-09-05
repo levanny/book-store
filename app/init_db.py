@@ -1,5 +1,5 @@
-from models import Book
-from db import SessionLocal
+from app.models import Book
+from app.db import SessionLocal
 from sqlalchemy.orm import Session
 def insert_data(filepath: str):
     db: Session = SessionLocal
