@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from app.routes import router as books_router
 import uvicorn
-from db import ensure_db_exists, create_books_table
+from db import ensure_db_exists
 from init_db import insert_data
 
 app = FastAPI()
@@ -14,7 +14,6 @@ def root():
 @app.on_event("startup")
 def startup():
     ensure_db_exists()
-    create_books_table()
     insert_data('books_data.txt')
 
 app.include_router(books_router)
