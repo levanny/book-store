@@ -1,23 +1,30 @@
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 import psycopg
-from psycopg.errors import DuplicateTable
+import os
+from dotenv import load_dotenv
 
-DB_NAME = "book_store"
+load_dotenv()
 
-DB_CONFIG = {
-    "dbname": DB_NAME,
-    "user": "postgres",
-    "password": "FantasticFox",
-    "host": "localhost",
-    "port": "5432",
 
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL is not set in .env file")
+
+DB_NAME = DATABASE_URL.rsplit("/", 1)[-1]
+ADMIN_DB_CONFIG = {
+    "dbname": "postgres",
+    "user": os.getenv("DB_USER", "postgres"),
+    "password": os.getenv("DB_PASSWORD", "FantasticFox"),
+    "host": os.getenv("DB_HOST", "localhost"),
+    "port": os.getenv("DB_PORT", "5432"),
 }
 
-ADMIN_DB_CONFIG = DB_CONFIG.copy()
-ADMIN_DB_CONFIG["dbname"] = "postgres"
 
 def ensure_db_exists():
     try:
-        with psycopg.connect(**ADMIN_DB_CONFIG, autocommit= True) as conn:
+        with psycopg.connect(**ADMIN_DB_CONFIG, autocommit=True) as conn:
             with conn.cursor() as cur:
                 cur.execute("SELECT 1 FROM pg_database WHERE datname = %s", (DB_NAME,))
                 exists = cur.fetchone()
@@ -29,24 +36,14 @@ def ensure_db_exists():
     except Exception as e:
         print(f"Database creation failed - {e}")
 
+engine = create_engine(DATABASE_URL, future=True)
+SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
-def get_connection():
-    return psycopg.connect(**DB_CONFIG)
 
-def create_books_table():
-    ensure_db_exists()
-    with get_connection() as con:
-        with con.cursor() as cur:
-            try:
-                cur.execute("""
-                    CREATE TABLE books (
-                        id SERIAL PRIMARY KEY,
-                        title TEXT NOT NULL,
-                        author TEXT NOT NULL,
-                        price FLOAT NOT NULL
-                    )
-                """)
-                print("Table created successfully")
-            except DuplicateTable:
-                print("Table already exists")
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
