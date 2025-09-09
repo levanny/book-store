@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status, Depends
-from app.models import Book
-from app.db import get_db
+from models import Book
+from db import get_db
 from typing import Optional
 from sqlalchemy.orm import sessionmaker, Session
 

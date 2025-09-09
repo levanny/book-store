@@ -1,8 +1,8 @@
-from app.models import Book
-from app.db import SessionLocal
+from models import Book
+from db import SessionLocal
 from sqlalchemy.orm import Session
 def insert_data(filepath: str):
-    db: Session = SessionLocal
+    db: Session = SessionLocal()
     try:
         count = db.query(Book).count()
         if count > 0:
