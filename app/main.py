@@ -1,9 +1,11 @@
 from fastapi import FastAPI
-from app.routes import router as books_router
+from routes import router as books_router
 import uvicorn
-from app.db import ensure_db_exists, create_books_table
-from app.init_db import insert_data
-
+from db import ensure_db_exists
+from init_db import insert_data
+import os
+from alembic import command
+from alembic.config import Config
 app = FastAPI()
 
 
@@ -14,7 +16,8 @@ def root():
 @app.on_event("startup")
 def startup():
     ensure_db_exists()
-    create_books_table()
+    alembic_cfg = Config(os.path.join(os.path.dirname(__file__), "alembic.ini"))
+    command.upgrade(alembic_cfg, "head")
     insert_data('books_data.txt')
 
 app.include_router(books_router)
